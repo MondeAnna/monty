@@ -34,5 +34,6 @@ typedef struct instruction_s
 } instruction_t;
 
 stack_t *stack_add(stack_t **head, const int n);
+size_t stack_print(const stack_t *h);
 
 #endif  /* STACKS_AND_QUEUES_H */
