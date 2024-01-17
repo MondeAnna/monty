@@ -1,6 +1,8 @@
 #include STACKS_AND_QUEUES_H
 #define STACKS_AND_QUEUES_H
 
+#include <stdlib.h>
+
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
