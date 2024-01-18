@@ -113,24 +113,6 @@ void _read(FILE *file)
 }
 
 /**
- * _open - open bytecode file
- * @file_name: name of file
- * Descriptioin: It is the responsibility of the
- * caller to close the file
- * Return: pointer to file
- */
-FILE *_open(char *file_name)
-{
-	FILE *file = fopen(file_name, "r");
-
-	if (file)
-		return (file);
-
-	fprintf(stderr, "Error: Can't open file %s\n", file_name);
-	exit(EXIT_FAILURE);
-}
-
-/**
  * _strnchr - count number of occurances of char in string
  * @str: string
  * @char_: character
