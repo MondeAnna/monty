@@ -24,13 +24,11 @@ FILE *_open(char *file_name)
 {
 	FILE *file = fopen(file_name, "r");
 
-	if (!file)
-	{
-		fprintf(stderr, "Error: Can't open file %s\n", file_name);
-		exit(EXIT_FAILURE);
-	}
+	if (file)
+		return (file);
 
-	return (file);
+	fprintf(stderr, "Error: Can't open file %s\n", file_name);
+	exit(EXIT_FAILURE);
 }
 
 /**
