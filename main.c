@@ -1,11 +1,11 @@
 #include "monty.h"
 
 /**
- * check_cli_args - ensure 2 values are passed
+ * ensure_two_cli_args - ensure 2 values are passed
  * @argc: number of cli arguments
  * Return: void
  */
-void check_cli_args(int argc)
+void ensure_two_cli_args(int argc)
 {
 	if (argc == 2)
 		return;
@@ -57,11 +57,11 @@ int main(int argc, char **argv)
 {
 	FILE *file;
 
-	check_cli_args(argc);
+	ensure_two_cli_args(argc);
+
 	file = _open(argv[1]);
 	_read(file);
 	fclose(file);
 
 	return (EXIT_SUCCESS);
 }
-
