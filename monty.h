@@ -1,6 +1,7 @@
-#include STACKS_AND_QUEUES_H
+#ifndef STACKS_AND_QUEUES_H
 #define STACKS_AND_QUEUES_H
 
+#include <stdio.h>
 #include <stdlib.h>
 
 /**
