@@ -7,11 +7,10 @@
  */
 void check_cli_args(int argc)
 {
-	if (argc != 2)
-	{
-		fprintf(stderr, "USAGE: monty file\n");
-		exit(EXIT_FAILURE);
-	}
+	if (argc == 2)
+		return;
+	fprintf(stderr, "USAGE: monty file\n");
+	exit(EXIT_FAILURE);
 }
 
 /**
