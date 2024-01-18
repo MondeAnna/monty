@@ -65,11 +65,7 @@ char **_split(char *line)
 
 	int index = 0;
 
-	printf("%s", line);
-
 	argc = _strnchr(line, ' ') + NULL_BYTE;
-
-	printf("%d\n", argc);
 
 	args = malloc(sizeof(*line) * argc);
 
@@ -77,6 +73,56 @@ char **_split(char *line)
 		exit(EXIT_FAILURE);
 
 	arg = strtok(line, DELIM);
+
+	while (arg)
+	{
+		argc = strlen(arg) + NULL_BYTE;
+		args[index] = malloc(sizeof(*arg) * argc);
+		args[index] = arg;
+		arg = strtok(NULL, DELIM);
+		index++;
+	}
+
+	args[index] = NULL;
+
+	return (args);
+}
+
+/**
+ * _trim - trim whitespce from string
+ * @str: string
+ * Return: trimmed string
+ */
+char *_trim(char *str)
+{
+	char *trimmed = malloc(sizeof(*str) * strlen(str));
+
+	sscanf(str, "%s", trimmed);
+	return (trimmed);
+}
+
+/**
+ * cmd_split - create array of arguemnts from user command
+ * @cmd: command line input
+ * Return: array of user command (char **)
+ */
+char **cmd_split(char *cmd)
+{
+	char **args;
+	char *arg;
+	int argc;
+
+	int index = 0;
+
+	argc = _strnchr(cmd, ' ') + NULL_BYTE;
+	args = malloc(sizeof(*cmd) * argc);
+
+	printf("%d\n", argc);
+
+	if (!args)
+		exit(EXIT_FAILURE);
+
+	arg = strtok(cmd, DELIM);
 
 	while (arg)
 	{
@@ -103,21 +149,25 @@ char **_read(char *file_name, char **args)
 	FILE *file = fopen(file_name, "r");
 
 	char **tracker = args;
-	/* char *trimmed_line; */
+	char *trimmed_line;
 	char *line;
 
 	size_t len;
 
 	while (getline(&line, &len, file) != EOF)
 	{
+		cmd_split(line);
 		/* printf("%s", line); */
+
 		/* printf("%s\n", _split(line)[0]); */
 		/* printf("%s\n", _split(line)[1]); */
-		/* trimmed_line = _trim(line); */
+		trimmed_line = _trim(line);
 
-		/* tracker = _split(trimmed_line); */
-		tracker = _split(line);
+		tracker = _split(trimmed_line);
+
+		/* tracker = _split(line); */
 		tracker++;
+		break;
 
 		/* see if we have to free trimmed_line */
 
