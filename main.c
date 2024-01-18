@@ -32,19 +32,77 @@ FILE *_open(char *file_name)
 }
 
 /**
+ * _strnchr - count number of occurances of char in string
+ * @str: string
+ * @char_: character
+ * Return: number of occurances (short int)
+ */
+short int _strnchr(char *str, char char_)
+{
+	short int count;
+
+	if (!(*str))
+		return (0);
+
+	count = *str == char_ ? 1 : 0;
+
+	return (count + _strnchr(++str, char_));
+}
+
+/**
+ * _split - create array of arguemnts from user command
+ * @line: command line input
+ * Return: array of user command (char **)
+ */
+char **_split(char *line)
+{
+	char **args;
+	char *arg;
+	int argc;
+
+	int index = 0;
+
+	argc = _strnchr(line, ' ') + NULL_BYTE;
+	args = malloc(sizeof(*line) * argc);
+
+	if (!args)
+		exit(EXIT_FAILURE);
+
+	arg = strtok(line, DELIM);
+
+	while (arg)
+	{
+		argc = strlen(arg) + NULL_BYTE;
+		args[index] = malloc(sizeof(*arg) * argc);
+		args[index] = arg;
+		arg = strtok(NULL, DELIM);
+		index++;
+	}
+
+	args[index] = NULL;
+
+	return (args);
+}
+
+/**
  * _read - read file
  * @file: pointer to file
  * Return: void
  */
 void _read(FILE *file)
 {
+	char **args;
 	char *line;
 	size_t len;
 
 	while (getline(&line, &len, file) != EOF)
-		printf("%s", line);
+	{
+		/* keep track of line count here */
+		args = _split(line);
+	}
 
 	free(line);
+	free(args);
 }
 
 /**
