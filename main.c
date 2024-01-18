@@ -32,6 +32,22 @@ FILE *_open(char *file_name)
 }
 
 /**
+ * _read - read file
+ * @file: pointer to file
+ * Return: void
+ */
+void _read(FILE *file)
+{
+	 char *line;
+	size_t len;
+
+	while (getline(&line, &len, file) != EOF)
+		printf("%s", line);
+
+	free(line);
+}
+
+/**
  * main - entry point
  * @argc: arg count
  * @argv: arg values
@@ -42,10 +58,10 @@ int main(int argc, char **argv)
 	FILE *file;
 
 	check_cli_args(argc);
-
 	file = _open(argv[1]);
-
+	_read(file);
 	fclose(file);
 
 	return (EXIT_SUCCESS);
 }
+
