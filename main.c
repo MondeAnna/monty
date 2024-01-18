@@ -85,24 +85,70 @@ char **_split(char *line)
 }
 
 /**
+ * _exec - executes line
+ * @line_args: args from file
+ * Return: void
+ */
+void _exec(char **line_args)
+{
+	char *cmd;
+	int value;
+
+	value = 1;
+	cmd = "extract cmd and value, then run";
+
+	printf("%d %s\n", value, cmd);
+
+	cmd = *line_args;
+}
+
+
+/**
+ * _nlines - number of lines in file
+ * @file: file pointer
+ * Descriptioin: It is the responsibility of the
+ * caller to close the file
+ * Return: line count
+ */
+int _nlines(FILE *file)
+{	/*
+	 * start passing file names so that the we
+	 * can open and close within one func
+	 */
+	int count = 1;
+	int n;
+
+	while (!feof(file))
+	{
+		n = fgetc(file);
+		if (n == '\n')
+			count++;
+	}
+
+	return (count);
+}
+
+/**
  * _read - read file
  * @file: pointer to file
  * Return: void
  */
 void _read(FILE *file)
 {
-	char **args;
+	char **line_args;
 	char *line;
 	size_t len;
 
 	while (getline(&line, &len, file) != EOF)
 	{
 		/* keep track of line count here */
-		args = _split(line);
+		line_args = _split(line);
+		printf("%d\n", _nlines(file));
+		_exec(line_args);
 	}
 
 	free(line);
-	free(args);
+	free(line_args);
 }
 
 /**
