@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define DELIMITERS " \n"
+#define DELIM " \n"
 #define NULL_BYTE '\0'
 
 typedef struct cmd_s {
@@ -11,12 +11,17 @@ typedef struct cmd_s {
 	char *value;
 } cmd_t;
 
+
+
+
 /**
  * _n_chars - count number of occurances of char in string
  * @str: string
  * @char_: character
  * Return: number of occurances (short int)
  */
+
+/*
 short int _n_chars(char *str, char char_)
 {
 	short int n;
@@ -28,12 +33,17 @@ short int _n_chars(char *str, char char_)
 
 	return (n + _n_chars(++str, char_));
 }
+*/
+
+
+
 
 /**
  * cmd_split - create array of arguemnts from user command
  * @cmd: command line input
  * Return: array of user command (char **)
  */
+/*
 char **cmd_split(char *cmd)
 {
 	char **args;
@@ -48,14 +58,14 @@ char **cmd_split(char *cmd)
 	if (!args)
 		exit(EXIT_FAILURE);
 
-	arg = strtok(cmd, DELIMITERS);
+	arg = strtok(cmd, DELIM);
 
 	while (arg)
 	{
 		argc = strlen(arg) + NULL_BYTE;
 		args[index] = malloc(sizeof(*arg) * argc);
 		args[index] = arg;
-		arg = strtok(NULL, DELIMITERS);
+		arg = strtok(NULL, DELIM);
 		index++;
 	}
 
@@ -63,11 +73,13 @@ char **cmd_split(char *cmd)
 
 	return (args);
 }
+*/
 
-size_t trimwhitespace(char *out, size_t len, const char *str)
+
+size_t _strstrp(char *out, size_t len, const char *str)
 {
 	const char *end;
-	size_t out_size, trimmed_len;
+	size_t out_size, stripped_len;
 
 	if(len == 0)
 		return 0;
@@ -89,8 +101,8 @@ size_t trimwhitespace(char *out, size_t len, const char *str)
 
 	end++;
 
-	trimmed_len = (size_t) (end - str);
-	out_size = trimmed_len < len-1 ? trimmed_len : len-1;
+	stripped_len = (size_t) (end - str);
+	out_size = stripped_len < len-1 ? stripped_len : len-1;
 
 	memcpy(out, str, out_size);
 
@@ -99,28 +111,27 @@ size_t trimwhitespace(char *out, size_t len, const char *str)
 	return (out_size);
 }
 
+
+
 int main(void)
 {
-	FILE *file = fopen("../bytecodes/05.m", "r");
+	FILE *file = fopen("bytecodes/05.m", "r");
 
-	char trimmed[1024];
+	char stripped[1024];
 	char *line;
 	size_t size;
 
 	while (getline(&line, &size, file) != EOF)
 	{
-	//	trimwhitespace(trimmed, size, line);
+	    _strstrp(stripped, size, line);
 
-		puts(line);
-	//	puts(trimmed);
-
+	    printf("Unalterd:\t%s", line);
+        printf("Ttripped:\t%s\n\n\n", stripped);
 	}
-	puts("123");
-
 	//free(line);
-	fclose(file);
 
-	puts("456");
+	if (file)
+    	fclose(file);
 
 	return (0);
 }
