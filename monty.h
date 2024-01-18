@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define BUFF 1024
 #define DELIM " \t\r\n\a"
 #define NULL_BYTE 1
 /**
@@ -37,9 +38,6 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-void ensure_two_cli_args(int argc);
-FILE *_open(char *file_name);
-void _read(FILE *file);
 stack_t *stack_add(stack_t **head, const int n);
 size_t stack_print(const stack_t *h);
 
