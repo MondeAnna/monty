@@ -38,7 +38,7 @@ FILE *_open(char *file_name)
  */
 void _read(FILE *file)
 {
-	 char *line;
+	char *line;
 	size_t len;
 
 	while (getline(&line, &len, file) != EOF)
