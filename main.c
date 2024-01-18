@@ -68,6 +68,9 @@ char **_split(char *line)
 	printf("%s", line);
 
 	argc = _strnchr(line, ' ') + NULL_BYTE;
+
+	printf("%d\n", argc);
+
 	args = malloc(sizeof(*line) * argc);
 
 	if (!args)
