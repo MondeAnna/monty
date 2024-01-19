@@ -9,12 +9,41 @@
 #define DELIM " \n"
 #define NULL_BYTE '\0'
 
+/**
+ * struct stack_s - doubly linked list representation of a stack (or queue)
+ * @n: integer
+ * @prev: points to the previous element of the stack (or queue)
+ * @next: points to the next element of the stack (or queue)
+ *
+ * Description: doubly linked list node structure
+ * for stack, queues, LIFO, FIFO
+ */
+typedef struct stack_s
+{
+	int n;
+	struct stack_s *prev;
+	struct stack_s *next;
+} stack_t;
+
 typedef struct cmd_s {
-	char *cmd;
+	char *opcode;
 	char *value;
+	int line_number;
 } cmd_t;
 
-
+/**
+ * struct instruction_s - opcode and its function
+ * @opcode: the opcode
+ * @f: function to handle the opcode
+ *
+ * Description: opcode and its function
+ * for stack, queues, LIFO, FIFO
+ */
+typedef struct instruction_s
+{
+	char *opcode;
+	void (*f)(stack_t **stack, unsigned int line_number);
+} instruction_t;
 
 
 /**
@@ -41,8 +70,9 @@ cmd_t *init_cmd()
 {
     cmd_t *cmd = malloc(sizeof(cmd_t));
 
-    cmd->cmd = NULL;
+    cmd->opcode = NULL;
     cmd->value = NULL;
+    cmd->line_number = 0;
 
     return (cmd);
 }
@@ -63,7 +93,7 @@ cmd_t *cmd_split(char *line)
 
 	argc = _nchar(line, ' ') ? CMD_VALUE : CMD_ONLY;
 
-	cmd->cmd = strtok(line, DELIM);
+	cmd->opcode = strtok(line, DELIM);
 	cmd->value = argc == CMD_VALUE ? strtok(NULL, DELIM) : NULL;
 
 	return (cmd);
@@ -105,6 +135,66 @@ size_t _strstrp(char *out, size_t len, const char *str)
 	return (out_size);
 }
 
+/**
+ * print - print doubly linked list
+ * @h: head
+ * Return: size of list (size_t)
+ */
+size_t print(const stack_t *h)
+{
+	if (!h)
+		return (0);
+
+	printf("%d\n", h->n);
+
+	return (1 + print(h->next));
+}
+
+void pall(stack_t **stack, __attribute__((unused)) unsigned int line_number)
+{
+    print(*stack);
+}
+
+void push(stack_t **stack, __attribute__((unused)) unsigned int line_number)
+{
+	stack_t *node;
+
+	node = malloc(sizeof(*stack));
+
+	if (!node)
+		return;
+
+	node->next = *stack;
+	node->prev = NULL;
+
+	if (!(*stack))
+		*stack = node;
+		return;
+
+	(*stack)->prev = node;
+	*stack = node;
+}
+
+void _exec(cmd_t *cmd, stack_t **stack)
+{
+    instruction_t opcodes[] = {
+        {"push", push},
+        {"pall", pall},
+        {NULL, NULL},
+    };
+
+	int i = 0;
+
+	while (opcodes[i].opcode)
+	{
+		if (!strcmp(cmd->opcode, opcodes[i].opcode))
+			break;
+		i++;
+	}
+
+    opcodes[i].f(stack, cmd->line_number);
+}
+
 int main(void)
 {
 	FILE *file = fopen("bytecodes/05.m", "r");
@@ -112,15 +202,24 @@ int main(void)
 	char stripped[BUFF];
 	char *line = NULL;
 	cmd_t *cmd = NULL;
-	size_t size;
+	size_t size = 0;
+	int line_number = 0;
+	stack_t *stack = NULL;
 
 	while (getline(&line, &size, file) != EOF)
 	{
 	    _strstrp(stripped, size, line);
+
 	    cmd = cmd_split(stripped);
+	    cmd->line_number = ++line_number;
+
+	    _exec(cmd, &stack);
 
 	    printf("Unalterd:\t%s", line);
-        printf("Stripped:\t%s\n\n\n", stripped);
+        printf("Stripped:\t%s\n\n", stripped);
+
+        printf("Split Command:\t%s\n", cmd->opcode);
+        printf("Split Value:\t%s\n\n\n", cmd->value);
 	}
 
 	free(line);
