@@ -61,6 +61,7 @@ typedef struct stack_s
 	struct stack_s *next;
 } stack_t;
 
+cmd_t *cmd_init();
 stack_t *stack_add(stack_t **head, const int n);
 size_t stack_print(const stack_t *h);
 
