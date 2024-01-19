@@ -73,7 +73,7 @@ int main(int argc, char **argv)
 	size_t size = 0;
 
 	_ensure_file_access(file_name);
-	cmd->file = fopen(filename, "r");
+	cmd->file = fopen(file_name, "r");
 
 	while (getline(&(cmd->line), &size, cmd->file) != EOF)
 	{
