@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define BUFF 1024
 #define DELIM " \n"
 #define NULL_BYTE '\0'
 
@@ -117,19 +118,21 @@ int main(void)
 {
 	FILE *file = fopen("bytecodes/05.m", "r");
 
-	char stripped[1024];
-	char *line;
+	char stripped[BUFF];
+	char *line = NULL;
 	size_t size;
+	cmd_t cmd;
 
 	while (getline(&line, &size, file) != EOF)
 	{
 	    _strstrp(stripped, size, line);
+	    // cmd = split(stripped);
 
 	    printf("Unalterd:\t%s", line);
-        printf("Ttripped:\t%s\n\n\n", stripped);
+        printf("Stripped:\t%s\n\n\n", stripped);
 	}
-	//free(line);
 
+	// free(line);
 	if (file)
     	fclose(file);
 
