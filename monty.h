@@ -13,20 +13,23 @@
 #define NULL_BYTE '\0'
 
 /**
- * struct stack_s - doubly linked list representation of a stack (or queue)
- * @n: integer
- * @prev: points to the previous element of the stack (or queue)
- * @next: points to the next element of the stack (or queue)
+ * struct cmd_s - command object
+ * @file: file pointer
+ * @opcode: user provided opcode
+ * @value: user provided value
+ * @line: parsed bytecode arg
+ * @line_number: nth line in bytecode
  *
- * Description: doubly linked list node structure
- * for stack, queues, LIFO, FIFO
+ * Description: command object carrying
+ * bytecode related values
  */
-typedef struct stack_s
-{
-	int n;
-	struct stack_s *prev;
-	struct stack_s *next;
-} stack_t;
+typedef struct cmd_s {
+	FILE *file;
+	char *opcode;
+	char *value;
+	char *line;
+	int line_number;
+} cmd_t;
 
 /**
  * struct instruction_s - opcode and its function
@@ -41,6 +44,22 @@ typedef struct instruction_s
 	char *opcode;
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+
+/**
+ * struct stack_s - doubly linked list representation of a stack (or queue)
+ * @n: integer
+ * @prev: points to the previous element of the stack (or queue)
+ * @next: points to the next element of the stack (or queue)
+ *
+ * Description: doubly linked list node structure
+ * for stack, queues, LIFO, FIFO
+ */
+typedef struct stack_s
+{
+	int n;
+	struct stack_s *prev;
+	struct stack_s *next;
+} stack_t;
 
 stack_t *stack_add(stack_t **head, const int n);
 size_t stack_print(const stack_t *h);
