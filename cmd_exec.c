@@ -29,5 +29,5 @@ void cmd_exec(cmd_t *cmd, stack_t **stack)
 		return;
 	}
 
-	exit_unknown_opcode(cmd, stack);
+	_exit_unknown_opcode(cmd, stack);
 }
