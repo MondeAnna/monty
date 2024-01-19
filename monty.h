@@ -62,7 +62,7 @@ typedef struct instruction_s
 } instruction_t;
 
 /* will have to look into how to initialise this */
-extern cmd_t cmd;
+extern cmd_t *cmd;
 
 void cmd_exec(cmd_t *cmd, stack_t **stack);
 cmd_t *cmd_init();
