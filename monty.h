@@ -68,7 +68,7 @@ void cmd_exec(cmd_t *cmd, stack_t **stack);
 cmd_t *cmd_init();
 cmd_t *cmd_line_split(cmd_t *cmd);
 void _ensure_file_access(char *file_name);
-void exit_unknown_opcode(cmd_t *cmd, stack_t **stack);
+void _exit_unknown_opcode(cmd_t *cmd, stack_t **stack);
 void free_stack(stack_t *stack);
 void pall(stack_t **stack, unsigned int line_number);
 stack_t *stack_add(stack_t **head, const int n);
