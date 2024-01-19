@@ -112,7 +112,15 @@ size_t _strstrp(char *out, size_t len, const char *str)
 	return (out_size);
 }
 
+cmd_t *init_cmd()
+{
+    cmd_t *cmd = malloc(sizeof(cmd_t));
 
+    cmd->cmd = NULL;
+    cmd->value = NULL;
+
+    return (cmd);
+}
 
 int main(void)
 {
@@ -121,7 +129,7 @@ int main(void)
 	char stripped[BUFF];
 	char *line = NULL;
 	size_t size;
-	cmd_t cmd;
+	cmd_t *cmd = init_cmd();
 
 	while (getline(&line, &size, file) != EOF)
 	{
