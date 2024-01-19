@@ -195,6 +195,23 @@ void _exec(cmd_t *cmd, stack_t **stack)
     opcodes[i].f(stack, cmd->line_number);
 }
 
+void free_stack(stack_t *head)
+{
+	stack_t *curr;
+
+	if (!head)
+		return;
+
+	while (head->next)
+	{
+		curr = head;
+		head = head->next;
+		free(curr);
+	}
+
+	free(head);
+}
+
 int main(void)
 {
 	FILE *file = fopen("bytecodes/05.m", "r");
@@ -223,6 +240,7 @@ int main(void)
 	}
 
 	free(line);
+    free_stack(stack);
 
 	if (file)
     	fclose(file);
