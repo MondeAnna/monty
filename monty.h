@@ -63,8 +63,8 @@ typedef struct stack_s
 
 cmd_t *cmd_init();
 cmd_t *cmd_line_split(cmd_t *cmd);
+void pall(stack_t **stack, unsigned int line_number);
 stack_t *stack_add(stack_t **head, const int n);
-size_t stack_print(const stack_t *h);
 size_t _strstrp(char *dest, const char *src);
 
 #endif  /* STACKS_AND_QUEUES_H */
