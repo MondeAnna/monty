@@ -23,6 +23,6 @@ size_t _print(const stack_t *h)
  */
 void pall(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 {
-    _print(*stack);
+	_print(*stack);
 }
 
