@@ -132,7 +132,8 @@ int main(void)
         printf("Stripped:\t%s\n\n\n", stripped);
 	}
 
-	// free(line);
+	free(line);
+
 	if (file)
     	fclose(file);
 
