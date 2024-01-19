@@ -61,6 +61,9 @@ typedef struct stack_s
 	struct stack_s *next;
 } stack_t;
 
+/* will have to look into how to initialise this */
+extern cmd_t cmd;
+
 cmd_t *cmd_init();
 cmd_t *cmd_line_split(cmd_t *cmd);
 void pall(stack_t **stack, unsigned int line_number);
