@@ -4,6 +4,8 @@
 #include <string.h>
 
 #define BUFF 1024
+#define CMD_ONLY 1
+#define CMD_VALUE 2
 #define DELIM " \n"
 #define NULL_BYTE '\0'
 
@@ -16,14 +18,12 @@ typedef struct cmd_s {
 
 
 /**
- * _n_chars - count number of occurances of char in string
+ * _nchar - count number of occurances of char in string
  * @str: string
  * @char_: character
  * Return: number of occurances (short int)
  */
-
-/*
-short int _n_chars(char *str, char char_)
+short int _nchar(char *str, char char_)
 {
 	short int n;
 
@@ -32,49 +32,42 @@ short int _n_chars(char *str, char char_)
 
 	n = *str == char_ ? 1 : 0;
 
-	return (n + _n_chars(++str, char_));
+	return (n + _nchar(++str, char_));
 }
-*/
+
+
+
+cmd_t *init_cmd()
+{
+    cmd_t *cmd = malloc(sizeof(cmd_t));
+
+    cmd->cmd = NULL;
+    cmd->value = NULL;
+
+    return (cmd);
+}
+
 
 
 
 
 /**
  * cmd_split - create array of arguemnts from user command
- * @cmd: command line input
- * Return: array of user command (char **)
+ * @line: command line input
+ * Return: pointer to command-value pari (cmd_t *)
  */
-/*
-char **cmd_split(char *cmd)
+cmd_t *cmd_split(char *line)
 {
-	char **args;
-	char *arg;
+    cmd_t *cmd = init_cmd();;
 	int argc;
 
-	int index = 0;
+	argc = _nchar(line, ' ') ? CMD_VALUE : CMD_ONLY;
 
-	argc = _n_chars(cmd, ' ') + NULL_BYTE;
-	args = malloc(sizeof(*cmd) * argc);
+	cmd->cmd = strtok(line, DELIM);
+	cmd->value = argc == CMD_VALUE ? strtok(NULL, DELIM) : NULL;
 
-	if (!args)
-		exit(EXIT_FAILURE);
-
-	arg = strtok(cmd, DELIM);
-
-	while (arg)
-	{
-		argc = strlen(arg) + NULL_BYTE;
-		args[index] = malloc(sizeof(*arg) * argc);
-		args[index] = arg;
-		arg = strtok(NULL, DELIM);
-		index++;
-	}
-
-	args[index] = NULL;
-
-	return (args);
+	return (cmd);
 }
-*/
 
 
 size_t _strstrp(char *out, size_t len, const char *str)
@@ -112,29 +105,19 @@ size_t _strstrp(char *out, size_t len, const char *str)
 	return (out_size);
 }
 
-cmd_t *init_cmd()
-{
-    cmd_t *cmd = malloc(sizeof(cmd_t));
-
-    cmd->cmd = NULL;
-    cmd->value = NULL;
-
-    return (cmd);
-}
-
 int main(void)
 {
 	FILE *file = fopen("bytecodes/05.m", "r");
 
 	char stripped[BUFF];
 	char *line = NULL;
+	cmd_t *cmd = NULL;
 	size_t size;
-	cmd_t *cmd = init_cmd();
 
 	while (getline(&line, &size, file) != EOF)
 	{
 	    _strstrp(stripped, size, line);
-	    // cmd = split(stripped);
+	    cmd = cmd_split(stripped);
 
 	    printf("Unalterd:\t%s", line);
         printf("Stripped:\t%s\n\n\n", stripped);
