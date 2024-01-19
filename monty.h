@@ -72,7 +72,7 @@ void _exit_unknown_opcode(cmd_t *cmd, stack_t **stack);
 void free_stack(stack_t *stack);
 char *get_file_name(int argc, char **argv);
 void pall(stack_t **stack, unsigned int line_number);
-stack_t *stack_add(stack_t **head, const int n);
+void push(stack_t **stack, unsigned int line_number)
 size_t _strstrp(char *dest, const char *src);
 
 #endif  /* STACKS_AND_QUEUES_H */
