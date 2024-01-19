@@ -26,8 +26,10 @@ typedef struct stack_s
 } stack_t;
 
 typedef struct cmd_s {
+	FILE *file;
 	char *opcode;
 	char *value;
+	char *line;
 	int line_number;
 } cmd_t;
 
@@ -70,6 +72,8 @@ cmd_t *init_cmd()
 {
     cmd_t *cmd = malloc(sizeof(cmd_t));
 
+    cmd->file = NULL;
+    cmd->line = NULL;
     cmd->opcode = NULL;
     cmd->value = NULL;
     cmd->line_number = 0;
@@ -175,6 +179,32 @@ void push(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 	*stack = node;
 }
 
+void free_stack(stack_t *head)
+{
+	stack_t *curr;
+
+	if (!head)
+		return;
+
+	while (head->next)
+	{
+		curr = head;
+		head = head->next;
+		free(curr);
+	}
+
+	free(head);
+}
+
+void exit_unknown_opcode(cmd_t *cmd, stack_t **stack)
+{
+    fprintf(stderr, "L%d: unknown instruction %s\n", cmd->line_number, cmd->opcode);
+	fclose(cmd->file);
+	free(cmd->line);
+	free_stack(*stack);
+	exit(EXIT_FAILURE);
+}
+
 void _exec(cmd_t *cmd, stack_t **stack)
 {
     instruction_t opcodes[] = {
@@ -192,24 +222,13 @@ void _exec(cmd_t *cmd, stack_t **stack)
 		i++;
 	}
 
-    opcodes[i].f(stack, cmd->line_number);
-}
+    if (opcodes[i].opcode)
+    {
+        opcodes[i].f(stack, cmd->line_number);
+        return;
+    }
 
-void free_stack(stack_t *head)
-{
-	stack_t *curr;
-
-	if (!head)
-		return;
-
-	while (head->next)
-	{
-		curr = head;
-		head = head->next;
-		free(curr);
-	}
-
-	free(head);
+    exit_unknown_opcode(cmd, stack);
 }
 
 int main(void)
