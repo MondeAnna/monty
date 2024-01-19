@@ -1,13 +1,17 @@
 #ifndef STACKS_AND_QUEUES_H
 #define STACKS_AND_QUEUES_H
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #define BUFF 1024
-#define DELIM " \t\r\n\a"
-#define NULL_BYTE 1
+#define CMD_ONLY 1
+#define CMD_VALUE 2
+#define DELIM " \n"
+#define NULL_BYTE '\0'
+
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
