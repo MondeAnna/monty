@@ -1,20 +1,5 @@
 #include "monty.h"
 
-/**
- * _ensure_file_access - checks that file can be opened
- * @file_name: name of file
- * Return: void
- */
-void _ensure_file_access(char *file_name)
-{
-	FILE *file = fopen(file_name, "r");
-
-	if (file)
-		return;
-
-	fprintf(stderr, "Error: Can't open file %s\n", file_name);
-	exit(EXIT_FAILURE);
-}
 
 /**
  * _read - read file
@@ -73,50 +58,6 @@ char *get_file_name(int argc, char **argv)
 }
 
 /**
- * get_line_count - number of lines in file
- * @file_name: name of file
- * Return: line count
- */
-int get_line_count(char *file_name)
-{
-	FILE *file = fopen(file_name, "r");
-	int count = 1;
-	int n;
-
-	while (!feof(file))
-	{
-		n = fgetc(file);
-
-		if (n == '\n')
-			count++;
-	}
-
-	fclose(file);
-	return (count);
-}
-
-/**
- * get_mapped_args - map arguments from bytecode
- * @file_name: name of file
- * @line_count: number of lines in file
- * Return: pointer to mapping (char **)
- */
-char **get_mapped_args(char *file_name, int line_count)
-{
-	char **args = malloc(sizeof(char **) * line_count + 1);
-
-	_read(file_name, args);
-
-	puts("asdf");
-
-	/* while (line_count--) */
-		/* puts(args[line_count]); */
-
-	puts("asdf");
-	return (args);
-}
-
-/**
  * main - entry point
  * @argc: arg count
  * @argv: arg values
@@ -125,18 +66,30 @@ char **get_mapped_args(char *file_name, int line_count)
 int main(int argc, char **argv)
 {
 	char *file_name = get_file_name(argc, argv);
-	/* char **mapped_args; */
-	int line_count;
+	cmd_t *cmd = init_cmd();
+	stack_t *stack = NULL;
+
+	char stripped[BUFF];
+	size_t size = 0;
 
 	_ensure_file_access(file_name);
+	cmd->file = fopen(filename, "r");
 
-	line_count = get_line_count(file_name);
-	get_mapped_args(file_name, line_count);
+	while (getline(&(cmd->line), &size, cmd->file) != EOF)
+	{
+		_strstrp(stripped, size, cmd->line);
 
-	/* mapped_args = get_mapped_args(file_name, line_count); */
-	/* printf("%s\n", *mapped_args); */
-	/* _read(file_name); */
-	/* fclose(file); */
+		cmd = cmd_line_split(cmd);
+		cmd->line_number++;
+
+		cmd_exec(cmd, &stack);
+	}
+
+	free(cmd->line);
+	free_stack(stack);
+
+	if (cmd->file)
+	fclose(cmd->file);
 
 	return (EXIT_SUCCESS);
 }
