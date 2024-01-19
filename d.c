@@ -86,18 +86,15 @@ cmd_t *init_cmd()
 
 
 /**
- * cmd_split - create array of arguemnts from user command
+ * cmd_line_split - create array of arguemnts from user command
  * @line: command line input
  * Return: pointer to command-value pari (cmd_t *)
  */
-cmd_t *cmd_split(char *line)
+cmd_t *cmd_line_split(cmd_t *cmd)
 {
-    cmd_t *cmd = init_cmd();;
-	int argc;
+	int argc = _nchar(cmd->line, ' ') ? CMD_VALUE : CMD_ONLY;
 
-	argc = _nchar(line, ' ') ? CMD_VALUE : CMD_ONLY;
-
-	cmd->opcode = strtok(line, DELIM);
+	cmd->opcode = strtok(cmd->line, DELIM);
 	cmd->value = argc == CMD_VALUE ? strtok(NULL, DELIM) : NULL;
 
 	return (cmd);
@@ -233,36 +230,35 @@ void _exec(cmd_t *cmd, stack_t **stack)
 
 int main(void)
 {
-	FILE *file = fopen("bytecodes/05.m", "r");
-
-	char stripped[BUFF];
-	char *line = NULL;
-	cmd_t *cmd = NULL;
-	size_t size = 0;
-	int line_number = 0;
+	cmd_t *cmd = init_cmd();
 	stack_t *stack = NULL;
 
-	while (getline(&line, &size, file) != EOF)
-	{
-	    _strstrp(stripped, size, line);
+	char stripped[BUFF];
+	size_t size = 0;
 
-	    cmd = cmd_split(stripped);
-	    cmd->line_number = ++line_number;
+	cmd->file = fopen("bytecodes/05.m", "r");
+
+	while (getline(&(cmd->line), &size, cmd->file) != EOF)
+	{
+	    _strstrp(stripped, size, cmd->line);
+
+	    cmd = cmd_line_split(cmd);
+	    cmd->line_number++;
 
 	    _exec(cmd, &stack);
 
-	    printf("Unalterd:\t%s", line);
+	    printf("Unalterd:\t%s", cmd->line);
         printf("Stripped:\t%s\n\n", stripped);
 
         printf("Split Command:\t%s\n", cmd->opcode);
         printf("Split Value:\t%s\n\n\n", cmd->value);
 	}
 
-	free(line);
+	free(cmd->line);
     free_stack(stack);
 
-	if (file)
-    	fclose(file);
+	if (cmd->file)
+    	fclose(cmd->file);
 
 	return (0);
 }
