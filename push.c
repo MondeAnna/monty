@@ -20,8 +20,10 @@ void push(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 	node->prev = NULL;
 
 	if (!(*stack))
+	{
 		*stack = node;
 		return;
+	}
 
 	(*stack)->prev = node;
 	*stack = node;
