@@ -21,7 +21,7 @@ short int _nchar(char *str, char char_)
 
 /**
  * cmd_line_split - create array of arguemnts from user command
- * @line: command line input
+ * @cmd: cmd object
  * Return: pointer to command-value pari (cmd_t *)
  */
 cmd_t *cmd_line_split(cmd_t *cmd)
@@ -31,4 +31,5 @@ cmd_t *cmd_line_split(cmd_t *cmd)
 	cmd->opcode = strtok(cmd->line, DELIM);
 	cmd->value = argc == CMD_VALUE ? strtok(NULL, DELIM) : NULL;
 
-
+	return (cmd);
+}
