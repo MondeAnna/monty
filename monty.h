@@ -58,8 +58,9 @@ typedef struct cmd_s {
 
 extern cmd_t *cmd;
 
-void ensure_file_access(char *file_name);
 cmd_t *cmd_init();
+void cmd_run(char *file_name, cmd_t *cmd, stack_t *stack);
+void ensure_file_access(char *file_name);
 char *get_file_name(int argc, char **argv);
 
 #endif  /* STACKS_AND_QUEUES_H */

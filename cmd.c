@@ -24,3 +24,23 @@ cmd_t *cmd_init()
 
 	return (cmd);
 }
+
+/**
+ * cmd_run - run provided bytecode file
+ * @file_name: name of bytecode file
+ * @cmd: cmb obj
+ * @stack: head to stack
+ * Return: void
+ */
+void cmd_run(char *file_name, cmd_t *cmd, stack_t *stack)
+{
+	size_t size = 0;
+
+	cmd->file = fopen(file_name, "r");
+
+	while (getline(&(cmd->line_raw), &size, cmd->file) != EOF)
+	{
+		(void) stack;
+		puts(cmd->line_raw);
+	}
+}

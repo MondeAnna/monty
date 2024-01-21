@@ -11,11 +11,12 @@ cmd_t *cmd = NULL;
 int main(int argc, char **argv)
 {
 	char *file_name = get_file_name(argc, argv);
+	stack_t *stack = NULL;
 
 	ensure_file_access(file_name);
-	cmd = cmd_init();
 
-	printf("cmd line number: %d\n", cmd->line_number);
+	cmd = cmd_init();
+	cmd_run(file_name, cmd, stack);
 
 	return (EXIT_SUCCESS);
 }
