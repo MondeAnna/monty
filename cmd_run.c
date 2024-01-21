@@ -30,9 +30,10 @@ void _cmd_exit(cmd_t *cmd, stack_t **stack)
 void _cmd_exec(cmd_t *cmd, stack_t **stack)
 {
 	instruction_t opcodes[] = {
-		{"push", opcode_push},
 		{"pall", opcode_pall},
 		{"pint", opcode_pint},
+		{"pop", opcode_pop},
+		{"push", opcode_push},
 		{"swap", opcode_swap},
 		{NULL, NULL},
 	};
