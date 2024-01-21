@@ -34,6 +34,7 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+void ensure_file_access(char *file_name);
 char *get_file_name(int argc, char **argv);
 
 #endif  /* STACKS_AND_QUEUES_H */
