@@ -37,6 +37,7 @@ void _cmd_exec(cmd_t *cmd, stack_t **stack)
 		{"nop", opcode_nop},
 		{"pall", opcode_pall},
 		{"pchar", opcode_pchar},
+		{"pstr", opcode_pstr},
 		{"pint", opcode_pint},
 		{"pop", opcode_pop},
 		{"push", opcode_push},
