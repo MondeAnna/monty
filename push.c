@@ -13,23 +13,25 @@ int _isdigit(int c)
 /**
  * _ensure_valid_value - checks that file can be opened
  * @value: value to be added to new node
+ * @stack: stack to be pushed onto
  * Return: void
  */
-void _ensure_valid_value(char *value)
+void _ensure_valid_value(char *value, stack_t *stack)
 {
 	int is_digit = 0;
 
 	while (*value)
 		is_digit = _isdigit(*value++);
 
-	if (!is_digit)
-	{
-		fprintf(stderr, "L%d: usage: push integer", cmd->line_number);
-		exit(EXIT_FAILURE);
-	}
+	if (is_digit)
+		return;
 
-	/* we need a function to close everything */
+	fprintf(stderr, "L%d: usage: push integer", cmd->line_number);
 
+	free_stack(stack);
+	cmd_empty(cmd);
+
+	exit(EXIT_FAILURE);
 }
 
 /**
@@ -44,7 +46,7 @@ void push(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 
 	node = malloc(sizeof(*stack));
 
-	_ensure_valid_value(cmd->value);
+	_ensure_valid_value(cmd->value, *stack);
 
 	if (!node)
 		return;
