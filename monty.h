@@ -64,6 +64,7 @@ typedef struct instruction_s
 /* will have to look into how to initialise this */
 extern cmd_t *cmd;
 
+void cmd_empty(cmd_t *cmd);
 void cmd_exec(cmd_t *cmd, stack_t **stack);
 cmd_t *cmd_init();
 cmd_t *cmd_line_split(cmd_t *cmd);
