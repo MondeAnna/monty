@@ -81,6 +81,7 @@ void free_stack(stack_t *stack);
 char *get_file_name(int argc, char **argv);
 
 void opcode_pall(stack_t **stack, unsigned int line_number);
+void opcode_pint(stack_t **stack, unsigned int line_number);
 void opcode_push(stack_t **stack, unsigned int line_number);
 
 #endif  /* STACKS_AND_QUEUES_H */
