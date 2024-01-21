@@ -15,9 +15,11 @@ cmd_t *cmd_init()
 	}
 
 	cmd->file = NULL;
-	cmd->line = NULL;
 	cmd->opcode = NULL;
 	cmd->value = NULL;
+	cmd->line_raw = NULL;
+	cmd->line_stripped = NULL;
+
 	cmd->line_number = 0;
 
 	return (cmd);

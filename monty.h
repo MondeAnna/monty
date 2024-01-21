@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -34,7 +35,31 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * struct cmd_s - command object
+ * @file: file ptr
+ * @opcode: user provided opcode
+ * @value: user provided value
+ * @line_raw: unaltered ptr to parsed bytecode arg
+ * @line_stripped: ptr to 1st non-whitespace of `line_raw`
+ * @line_number: nth line in bytecode
+ *
+ * Description: command object carrying bytecode
+ * related values
+ */
+typedef struct cmd_s {
+	FILE *file;
+	char *opcode;
+	char *value;
+	char *line_raw;
+	char *line_stripped;
+	unsigned int line_number;
+} cmd_t;
+
+extern cmd_t *cmd;
+
 void ensure_file_access(char *file_name);
+cmd_t *cmd_init();
 char *get_file_name(int argc, char **argv);
 
 #endif  /* STACKS_AND_QUEUES_H */
