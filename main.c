@@ -1,5 +1,7 @@
 #include "monty.h"
 
+cmd_t *cmd = NULL;
+
 /**
  * main - entry point
  * @argc: arg count
@@ -9,13 +11,13 @@
 int main(int argc, char **argv)
 {
 	char *file_name = get_file_name(argc, argv);
-	cmd_t *cmd = cmd_init();
 	stack_t *stack = NULL;
-
 	char stripped[BUFF];
 	size_t size = 0;
 
 	_ensure_file_access(file_name);
+
+	cmd = cmd_init();
 	cmd->file = fopen(file_name, "r");
 
 	while (getline(&(cmd->line), &size, cmd->file) != EOF)
