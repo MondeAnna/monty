@@ -12,7 +12,7 @@ void opcode_add(stack_t **stack, unsigned int line_number)
 	stack_t *head;
 	stack_t *next;
 
-	if (stack_size(*stack) < 2)
+	if (!stack || stack_size(*stack) < 2)
 		opcode_exit(error, *stack, line_number);
 
 	head = *stack;
