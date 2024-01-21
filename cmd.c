@@ -27,7 +27,28 @@ void cmd_exec(cmd_t *cmd, stack_t **stack)
 		return;
 	}
 
-	_cmd_exit_unknown_opcode(cmd, stack);
+	cmd_exit(cmd, stack);
+}
+
+/**
+ * cmd_exit - raised when erronous opcode given
+ * @cmd: cmd object
+ * @stack: head of stack
+ * Return: void
+ */
+void cmd_exit(cmd_t *cmd, stack_t **stack)
+{
+	fprintf(
+		stderr,
+		"L%d: unknown instruction %s\n",
+		cmd->line_number,
+		cmd->opcode
+	);
+
+	cmd_release(cmd);
+	free_stack(*stack);
+
+	exit(EXIT_FAILURE);
 }
 
 /**
@@ -72,19 +93,15 @@ cmd_t *cmd_line_split(cmd_t *cmd)
 }
 
 /**
- * cmd_line_strip - set ptr to first non-whitespace in str
- * @cmd: string from which whitespace is to be stripped
- * Return: ptr to command-value pari (cmd_t *)
+ * cmd_release - releases cmd bound resources
+ * @cmd - cmd object
+ * Return: void
  */
-cmd_t *cmd_line_strip(cmd_t *cmd)
+void cmd_release(cmd_t *cmd)
 {
-	cmd->line_stripped = malloc(*(cmd->line_raw) * strlen(cmd->line_raw));
-
-	if (!cmd->line_stripped)
-		return (cmd);
-
-	_cmd_strstrp(cmd->line_stripped, cmd->line_raw);
-	return (cmd);
+	fclose(cmd->file);
+	free(cmd->line_raw);
+	free(cmd->line_stripped);
 }
 
 /**
