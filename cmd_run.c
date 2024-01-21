@@ -31,6 +31,7 @@ void _cmd_exec(cmd_t *cmd, stack_t **stack)
 {
 	instruction_t opcodes[] = {
 		{"add", opcode_add},
+		{"div", opcode_div},
 		{"nop", opcode_nop},
 		{"pall", opcode_pall},
 		{"pint", opcode_pint},

@@ -74,6 +74,7 @@ char *get_file_name(int argc, char **argv);
 size_t stack_size(stack_t *stack);
 
 void opcode_add(stack_t **stack, unsigned int line_number);
+void opcode_div(stack_t **stack, unsigned int line_number);
 void opcode_exit(char *error, stack_t *stack, unsigned int line_number);
 void opcode_nop(stack_t **stack, unsigned int line_number);
 void opcode_pall(stack_t **stack, unsigned int line_number);
