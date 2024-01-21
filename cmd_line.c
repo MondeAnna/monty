@@ -1,38 +1,6 @@
 #include "monty.h"
 
 /**
- * _cmd_line_split - set ptr to opcode and value embedded
- * in bytecode line
- * @cmd: cmd object
- * Return: ptr to command-value pari (cmd_t *)
- */
-cmd_t *_cmd_line_split(cmd_t *cmd)
-{
-	int argc = _cmd_line_nchar(cmd->line_raw, ' ') ? CMD_VALUE : CMD_ONLY;
-
-	cmd->opcode = strtok(cmd->line_raw, DELIM);
-	cmd->value = argc == CMD_VALUE ? strtok(NULL, DELIM) : NULL;
-
-	return (cmd);
-}
-
-/**
- * _cmd_line_strip - set ptr to first non-whitespace in str
- * @cmd: string from which whitespace is to be stripped
- * Return: ptr to command-value pari (cmd_t *)
- */
-cmd_t *_cmd_line_strip(cmd_t *cmd)
-{
-	cmd->line_stripped = malloc(*(cmd->line_raw) * strlen(cmd->line_raw));
-
-	if (!cmd->line_stripped)
-		return (cmd);
-
-	_cmd_strstrp(cmd->line_stripped, cmd->line_raw);
-	return (cmd);
-}
-
-/**
  * _cmd_line_nchar - count number of occurances of char in string
  * @str: string
  * @char_: character
@@ -88,4 +56,48 @@ size_t _cmd_strstrp(char *dest, const char *src)
 	dest[dest_size] = 0;
 
 	return (dest_size);
+}
+/**
+ * _cmd_line_split - set ptr to opcode and value embedded
+ * in bytecode line
+ * @cmd: cmd object
+ * Return: ptr to command-value pari (cmd_t *)
+ */
+cmd_t *_cmd_line_split(cmd_t *cmd)
+{
+	int argc = _cmd_line_nchar(cmd->line_raw, ' ') ? CMD_VALUE : CMD_ONLY;
+
+	cmd->opcode = strtok(cmd->line_raw, DELIM);
+	cmd->value = argc == CMD_VALUE ? strtok(NULL, DELIM) : NULL;
+
+	return (cmd);
+}
+
+/**
+ * _cmd_line_strip - set ptr to first non-whitespace in str
+ * @cmd: string from which whitespace is to be stripped
+ * Return: ptr to command-value pari (cmd_t *)
+ */
+cmd_t *_cmd_line_strip(cmd_t *cmd)
+{
+	cmd->line_stripped = malloc(*(cmd->line_raw) * strlen(cmd->line_raw));
+
+	if (!cmd->line_stripped)
+		return (cmd);
+
+	_cmd_strstrp(cmd->line_stripped, cmd->line_raw);
+	return (cmd);
+}
+
+/**
+ * cmd_line_proc - set ptr to opcode and value embedded
+ * in bytecode line
+ * @cmd: cmd object
+ * Return: ptr to command-value pari (cmd_t *)
+ */
+cmd_t *cmd_line_proc(cmd_t *cmd)
+{
+	cmd = _cmd_line_split(cmd);
+	cmd = _cmd_line_strip(cmd);
+	return (cmd);
 }

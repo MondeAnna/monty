@@ -63,18 +63,13 @@ typedef struct cmd_s {
 
 extern cmd_t *cmd;
 
-void cmd_exec(cmd_t *cmd, stack_t **stack);
-void cmd_exit(cmd_t *cmd, stack_t **stack);
 cmd_t *cmd_init();
 cmd_t *cmd_line_proc(cmd_t *cmd);
 void cmd_release(cmd_t *cmd);
 void cmd_run(char *file_name, cmd_t *cmd, stack_t *stack);
 
-short int _cmd_line_nchar(char *str, char char_);
 cmd_t *_cmd_line_split(cmd_t *cmd);
 cmd_t *_cmd_line_strip(cmd_t *cmd);
-short int _cmd_nchar(char *str, char char_);
-size_t _cmd_strstrp(char *dest, const char *src);
 
 void ensure_file_access(char *file_name);
 void free_stack(stack_t *stack);
