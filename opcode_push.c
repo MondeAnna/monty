@@ -19,6 +19,7 @@ int _isdigit(int c)
  */
 void _ensure_valid_value(char *value, stack_t *stack, unsigned int line_number)
 {
+	char *error = "L%d: usage: push integer\n";
 	int is_digit = 0;
 
 	value = *value == '-' ? value + 1 : value;
@@ -31,15 +32,8 @@ void _ensure_valid_value(char *value, stack_t *stack, unsigned int line_number)
 			break;
 	}
 
-	if (is_digit)
-		return;
-
-	fprintf(stderr, "L%d: usage: push integer", line_number);
-
-	cmd_release(cmd);
-	free_stack(stack);
-
-	exit(EXIT_FAILURE);
+	if (!is_digit)
+		opcode_exit(error, stack, line_number);
 }
 
 /**

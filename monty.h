@@ -71,7 +71,9 @@ void cmd_run(char *file_name, cmd_t *cmd, stack_t *stack);
 void ensure_file_access(char *file_name);
 void free_stack(stack_t *stack);
 char *get_file_name(int argc, char **argv);
+size_t stack_size(stack_t *stack);
 
+void opcode_exit(char *error, stack_t *stack, unsigned int line_number);
 void opcode_pall(stack_t **stack, unsigned int line_number);
 void opcode_pint(stack_t **stack, unsigned int line_number);
 void opcode_push(stack_t **stack, unsigned int line_number);

@@ -8,11 +8,10 @@
  */
 void opcode_pint(stack_t **stack, unsigned int line_number)
 {
+	char *error = "L%d: can't pint, stack empty\n";
+
 	if (!stack || !(*stack))
-	{
-		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
-		exit(EXIT_FAILURE);
-	}
+		opcode_exit(error, *stack, line_number);
 
 	printf("%d\n", (*stack)->n);
 }

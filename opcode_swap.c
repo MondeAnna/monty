@@ -33,16 +33,12 @@ size_t _stack_size(stack_t *stack)
  */
 void opcode_swap(stack_t **stack, unsigned int line_number)
 {
+	char *error = "L%d: can't swap, stack too short";
 	stack_t *head;
 	stack_t *next;
 
 	if (_stack_size(*stack) < 2)
-	{
-		fprintf(stderr, "L%d: can't swap, stack too short", line_number);
-		cmd_release(cmd);
-		free_stack(*stack);
-		exit(EXIT_FAILURE);
-	}
+		opcode_exit(error, *stack, line_number);
 
 	head = *stack;
 	next = head->next;
