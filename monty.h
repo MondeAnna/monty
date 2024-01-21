@@ -68,9 +68,6 @@ cmd_t *cmd_line_proc(cmd_t *cmd);
 void cmd_release(cmd_t *cmd);
 void cmd_run(char *file_name, cmd_t *cmd, stack_t *stack);
 
-cmd_t *_cmd_line_split(cmd_t *cmd);
-cmd_t *_cmd_line_strip(cmd_t *cmd);
-
 void ensure_file_access(char *file_name);
 void free_stack(stack_t *stack);
 char *get_file_name(int argc, char **argv);

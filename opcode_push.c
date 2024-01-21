@@ -24,7 +24,12 @@ void _ensure_valid_value(char *value, stack_t *stack, unsigned int line_number)
 	value = *value == '-' ? value + 1 : value;
 
 	while (*value)
+	{
 		is_digit = _isdigit(*value++);
+
+		if (!is_digit)
+			break;
+	}
 
 	if (is_digit)
 		return;
@@ -35,50 +40,6 @@ void _ensure_valid_value(char *value, stack_t *stack, unsigned int line_number)
 	free_stack(stack);
 
 	exit(EXIT_FAILURE);
-}
-
-/**
- * _print - print doubly linked list
- * @h: head
- * Return: size of list (size_t)
- */
-size_t _print(const stack_t *h)
-{
-	if (!h)
-		return (0);
-
-	printf("%d\n", h->n);
-
-	return (1 + _print(h->next));
-}
-
-/**
- * opcode_pall - stack printing opcode
- * @stack: head of stack
- * @line_number: number of lines in stack when called
- * Return: void
- */
-void opcode_pall(stack_t **stack, unsigned int line_number)
-{
-	(void) line_number;
-	_print(*stack);
-}
-
-/**
- * opcode_pint - stack printing opcode
- * @stack: head of stack
- * @line_number: number of lines in stack when called
- * Return: void
- */
-void opcode_pint(stack_t **stack, unsigned int line_number)
-{
-	if (!stack || !(*stack))
-	{
-		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-
-	printf("%d\n", (*stack)->n);
 }
 
 /**
