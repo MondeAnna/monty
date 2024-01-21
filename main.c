@@ -17,6 +17,9 @@ int main(int argc, char **argv)
 
 	cmd = cmd_init();
 	cmd_run(file_name, cmd, stack);
+	cmd_release(cmd);
+
+	free_stack(stack);
 
 	return (EXIT_SUCCESS);
 }

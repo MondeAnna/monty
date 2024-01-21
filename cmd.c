@@ -9,6 +9,8 @@
 void cmd_exec(cmd_t *cmd, stack_t **stack)
 {
 	instruction_t opcodes[] = {
+		{"push", opcode_push},
+		{"pall", opcode_pall},
 		{NULL, NULL},
 	};
 
