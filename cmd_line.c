@@ -83,7 +83,10 @@ cmd_t *_cmd_line_strip(cmd_t *cmd)
 	cmd->line_stripped = malloc(*(cmd->line_raw) * strlen(cmd->line_raw));
 
 	if (!cmd->line_stripped)
-		return (cmd);
+	{
+		fprintf(stderr, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
+	}
 
 	_cmd_strstrp(cmd->line_stripped, cmd->line_raw);
 	return (cmd);

@@ -53,7 +53,10 @@ void opcode_push(stack_t **stack, unsigned int line_number)
 	_ensure_valid_value(cmd->value, head, line_number);
 
 	if (!node)
-		return;
+	{
+		fprintf(stderr, "Error: malloc failed");
+		exit(EXIT_FAILURE);
+	}
 
 	node->n = atoi(cmd->value);
 	node->next = head;
