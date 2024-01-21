@@ -1,7 +1,7 @@
 #include "monty.h"
 
 /**
- * reclaim - reclaim system resources
+ * cmd_empty - clear resources bound to cmd
  * @cmd: cmd object
  * Description: close file stream, free the
  * current line carrying present opcode
