@@ -77,18 +77,15 @@ cmd_t *cmd_init()
 }
 
 /**
- * cmd_line_split - set ptr to opcode and value embedded
+ * cmd_line_proc - set ptr to opcode and value embedded
  * in bytecode line
  * @cmd: cmd object
  * Return: ptr to command-value pari (cmd_t *)
  */
-cmd_t *cmd_line_split(cmd_t *cmd)
+cmd_t *cmd_line_proc(cmd_t *cmd)
 {
-	int argc = _cmd_nchar(cmd->line_raw, ' ') ? CMD_VALUE : CMD_ONLY;
-
-	cmd->opcode = strtok(cmd->line_raw, DELIM);
-	cmd->value = argc == CMD_VALUE ? strtok(NULL, DELIM) : NULL;
-
+	cmd = _cmd_line_split(cmd);
+	cmd = _cmd_line_strip(cmd);
 	return (cmd);
 }
 
@@ -119,8 +116,7 @@ void cmd_run(char *file_name, cmd_t *cmd, stack_t *stack)
 
 	while (getline(&(cmd->line_raw), &size, cmd->file) != EOF)
 	{
-		cmd = cmd_line_strip(cmd);
-		cmd = cmd_line_split(cmd);
+		cmd = cmd_line_proc(cmd);
 		cmd->line_number++;
 		cmd_exec(cmd, &stack);
 	}

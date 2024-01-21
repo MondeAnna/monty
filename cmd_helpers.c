@@ -1,37 +1,44 @@
 #include "monty.h"
 
 /**
- * _cmd_exit_unknown_opcode - raised when erronous opcode given
+ * _cmd_line_split - set ptr to opcode and value embedded
+ * in bytecode line
  * @cmd: cmd object
- * @stack: head of stack
- * Return: void
+ * Return: ptr to command-value pari (cmd_t *)
  */
-void _cmd_exit_unknown_opcode(cmd_t *cmd, stack_t **stack)
+cmd_t *_cmd_line_split(cmd_t *cmd)
 {
-	fprintf(
-		stderr,
-		"L%d: unknown instruction %s\n",
-		cmd->line_number,
-		cmd->opcode
-	);
+	int argc = _cmd_line_nchar(cmd->line_raw, ' ') ? CMD_VALUE : CMD_ONLY;
 
-	fclose(cmd->file);
+	cmd->opcode = strtok(cmd->line_raw, DELIM);
+	cmd->value = argc == CMD_VALUE ? strtok(NULL, DELIM) : NULL;
 
-	free(cmd->line_raw);
-	free(cmd->line_stripped);
-
-	(void) stack;
-
-	exit(EXIT_FAILURE);
+	return (cmd);
 }
 
 /**
- * _cmd_nchar - count number of occurances of char in string
+ * _cmd_line_strip - set ptr to first non-whitespace in str
+ * @cmd: string from which whitespace is to be stripped
+ * Return: ptr to command-value pari (cmd_t *)
+ */
+cmd_t *_cmd_line_strip(cmd_t *cmd)
+{
+	cmd->line_stripped = malloc(*(cmd->line_raw) * strlen(cmd->line_raw));
+
+	if (!cmd->line_stripped)
+		return (cmd);
+
+	_cmd_strstrp(cmd->line_stripped, cmd->line_raw);
+	return (cmd);
+}
+
+/**
+ * _cmd_line_nchar - count number of occurances of char in string
  * @str: string
  * @char_: character
  * Return: number of occurances (short int)
  */
-short int _cmd_nchar(char *str, char char_)
+short int _cmd_line_nchar(char *str, char char_)
 {
 	/* consider replacing this with strchr */
 	short int n;
@@ -41,7 +48,7 @@ short int _cmd_nchar(char *str, char char_)
 
 	n = *str == char_ ? 1 : 0;
 
-	return (n + _cmd_nchar(++str, char_));
+	return (n + _cmd_line_nchar(++str, char_));
 }
 
 /**
