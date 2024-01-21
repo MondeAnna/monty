@@ -1,9 +1,14 @@
 #ifndef STACKS_AND_QUEUES_H
 #define STACKS_AND_QUEUES_H
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#define CMD_ONLY 1
+#define CMD_VALUE 2
+#define DELIM " \n"
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -60,6 +65,11 @@ extern cmd_t *cmd;
 
 cmd_t *cmd_init();
 void cmd_run(char *file_name, cmd_t *cmd, stack_t *stack);
+
+void _cmd_exit_unknown_opcode(cmd_t *cmd, stack_t **stack);
+short int _cmd_nchar(char *str, char char_);
+size_t _cmd_strstrp(char *dest, const char *src);
+
 void ensure_file_access(char *file_name);
 char *get_file_name(int argc, char **argv);
 
