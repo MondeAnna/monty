@@ -36,6 +36,7 @@ void _cmd_exec(cmd_t *cmd, stack_t **stack)
 		{"pint", opcode_pint},
 		{"pop", opcode_pop},
 		{"push", opcode_push},
+		{"sub", opcode_sub},
 		{"swap", opcode_swap},
 		{NULL, NULL},
 	};
